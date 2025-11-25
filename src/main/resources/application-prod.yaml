@@ -1,0 +1,9 @@
+# ============================================
+# QUARKUS CONFIG (PROD)
+# ============================================
+quarkus:
+  swagger-ui:                                                                                                                                                                                                                                   
+    urls-primary-name: default  
+    urls:
+      default: https://irisapi.kase.kz/kcsd/rest/q/openapi
+      direct: /q/openapi    

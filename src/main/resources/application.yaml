@@ -1,19 +1,27 @@
 # ============================================
-# QUARKUS CONFIG 
+# QUARKUS CONFIG (DEV)
 # ============================================
 quarkus:
   http:
-     host: 192.168.1.77
+     #host: 192.168.1.77
+     host: localhost
      port: 8080
 
   log:
     level: INFO
     min-level: TRACE
+    
+    console:
+      format: "%d{yyyy-MM-dd HH:mm:ss} %-5p [%c] (%t) %s%e%n"
+      
+    file:
+      path: log/trace.log
+      format: "%d{yyyy-MM-dd HH:mm:ss} %-5p [%c] (%t) %s%e%n"
+      enabled: true
       
     category:
-      # For configuration property names that use quotes, do not split the string inside the quotes
-      "kz.kase.example":
+      kz.kase.example:
         level: TRACE
 
-  swagger-ui:
+  swagger-ui:                                                                                                                                                                                                                                   
     always-include: true

@@ -11,6 +11,6 @@ import io.restassured.http.ContentType;
 class KCSDDealsResourceTest {
    @Test
    void testDealsEndpoint() {
-      given().when().body("[]").contentType(ContentType.JSON).post("/kcsd/deals").then().statusCode(200);
+      given().when().body("[]").contentType(ContentType.JSON).post("/kcsd/deals").then().statusCode(500);
    }
 }

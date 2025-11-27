@@ -14,8 +14,10 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import kz.kase.example.model.Deal;
 import kz.kase.example.model.Result;
+import kz.kase.example.services.DbService;
 
 import io.quarkus.logging.Log;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -26,6 +28,9 @@ import jakarta.ws.rs.core.Response.Status;
 
 @Path("/kcsd")
 public class KCSDDealsResource {
+   @Inject
+   private DbService dbService;
+
    //@formatter:off
    @POST
    @Path("/deals")
@@ -59,12 +64,47 @@ public class KCSDDealsResource {
       Log.infof("uploadKcsdDeals: cnt=%d", deals == null ? 0 : deals.size());
       try {
          if (deals != null && !deals.isEmpty()) {
-            deals.forEach(d -> Log.tracef("deal: id=%d, time=%s", d.id, d.dealTime == null ? "NULL" : d.dealTime.format(Deal.ANSI)));
+            int add = 0, upd = 0, err = 0;
+
+            for (Deal d : deals) {
+               if (Log.isTraceEnabled()) {
+                  Log.trace("   " + d.toString());
+               }
+
+               if (d.id == null) {
+                  Log.warn("   Deal without id");
+                  err++;
+               } else if (d.deal_time == null) {
+                  Log.warnf("   No deal_time for deal with id=%d", d.id);
+                  err++;
+               } else {
+                  switch (dbService.saveDeal(d)) {
+                     case ADD:
+                        add++;
+                        break;
+                     case UPDATE:
+                        upd++;
+                        break;
+                  }
+               }
+            }
+
+
+            if (err > 0) {
+               dbService.saveSession(add, upd, err, "Количество ошибочных сделок: " + err);
+               return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Result("Количество ошибочных сделок: " + err)).build();
+            } else {
+               dbService.saveSession(add, upd, err);
+               return Response.ok(new Result()).build();
+            }
          } else {
             Log.warnf("uploadKcsdDeals: %s", deals == null ? "no deals" : "empty deals list");
+            dbService.saveSessionError("В запросе отсутствуют сделки");
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Result("В запросе отсутствуют сделки")).build();
          }
-         return Response.ok(new Result()).build();
       } catch (Exception e) {
+         Log.error("Exception in uploadKcsdDeals", e);
+         dbService.saveSessionError(e);
          return Response.status(Status.INTERNAL_SERVER_ERROR).entity(new Result(e.getMessage())).build();
       }
    }

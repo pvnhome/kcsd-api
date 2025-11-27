@@ -13,7 +13,7 @@ public class Result {
    @Schema(type = SchemaType.BOOLEAN, description = "Статус выполнения запроса (true - успешно, false - ошибка)")
    public Boolean ok;
    @Schema(type = SchemaType.STRING, description = "Описание ошибки (в случае если ok=false)")
-   public String errorMessage;
+   public String error_message;
 
    //==============================================================
    // Конструкторы.
@@ -24,7 +24,7 @@ public class Result {
    }
 
    public Result(String errorMessage) {
-      this.errorMessage = errorMessage;
+      this.error_message = errorMessage;
       ok = false;
    }
 }

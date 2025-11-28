@@ -44,9 +44,9 @@ public class Deal extends PanacheEntityBase {
    /*
    @Schema(type = SchemaType.STRING, description = "Тип ценной бумаги")
    public String secType;
-   */
    @Schema(type = SchemaType.STRING, description = "Код ценной бумаги")
    public String code;
+   */
    @Schema(type = SchemaType.STRING, description = "Код ISIN")
    public String isin;
    /*
@@ -91,36 +91,11 @@ public class Deal extends PanacheEntityBase {
    public Deal() {
    }
 
-   /*
-   public Deal(Long id, String time, String market, String dealType, String secType, String code, String isin, String issuer, Long quantity, String price, String currency, String volKzt, String registration, Integer agentId, Boolean agentResident, Boolean agentIndividual, Integer contragentId, Boolean contragentResident, Boolean contragentIndividual) {
-      this.id = id;
-      this.dealTime = LocalDateTime.parse(time, ANSI);
-      this.market = market;
-      this.dealType = dealType;
-      this.secType = secType;
-      this.code = code;
-      this.isin = isin;
-      this.issuer = issuer;
-      this.quantity = quantity;
-      this.price = new BigDecimal(price);
-      this.currency = currency;
-      this.volKzt = new BigDecimal(volKzt);
-      this.registration = registration;
-      this.agentId = agentId;
-      this.agentResident = agentResident;
-      this.agentIndividual = agentIndividual;
-      this.contragentId = contragentId;
-      this.contragentResident = contragentResident;
-      this.contragentIndividual = contragentIndividual;
-   }
-   */
-
-   public Deal(Long id, String time, String market, String dealType, String code, String isin, Long quantity, String price, String currency, String amount, Boolean agentResidency, Boolean agentType, Boolean contragentResidency, Boolean contragentType) {
+   public Deal(Long id, String time, String market, String dealType, String isin, Long quantity, String price, String currency, String amount, Boolean agentResidency, Boolean agentType, Boolean contragentResidency, Boolean contragentType) {
       this.id = id;
       this.deal_time = LocalDateTime.parse(time, ANSI);
       this.market = market;
       this.deal_type = dealType;
-      this.code = code;
       this.isin = isin;
       this.quantity = quantity;
       this.price = new BigDecimal(price);
@@ -154,11 +129,6 @@ public class Deal extends PanacheEntityBase {
       if (deal_type != null) {
          builder.append("deal_type=");
          builder.append(deal_type);
-         builder.append(", ");
-      }
-      if (code != null) {
-         builder.append("code=");
-         builder.append(code);
          builder.append(", ");
       }
       if (isin != null) {

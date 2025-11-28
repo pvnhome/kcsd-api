@@ -12,7 +12,7 @@ import jakarta.ws.rs.core.Application;
    info = @Info(
       title="KCSD Deals API",
       description = "Программные интерфейсы KASE для передачи информации о внебиржевых сделках в виде REST-сервиса.",
-      version = "2.1.0",
+      version = "2.2.0",
       contact = @Contact(
          name = "KCSD Deals API Support",
          url = "https://kase.kz/",

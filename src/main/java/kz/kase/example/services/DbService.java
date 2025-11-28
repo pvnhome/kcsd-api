@@ -36,7 +36,6 @@ public class DbService {
          dealInDb.deal_time = deal.deal_time;
          dealInDb.market = deal.market;
          dealInDb.deal_type = deal.deal_type;
-         dealInDb.code = deal.code;
          dealInDb.isin = deal.isin;
          dealInDb.quantity = deal.quantity;
          dealInDb.price = deal.price;
